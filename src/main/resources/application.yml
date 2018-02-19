@@ -1,0 +1,124 @@
+spring:
+  application:
+    name: VOL
+  devtools:
+    livereload:
+      enabled: true  # for jsp auto reload
+    freemarker:
+      cache: false
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp 
+
+  datasource:
+    type: org.apache.tomcat.jdbc.pool.DataSource
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://sport-saas-psql.cf37vedvxld3.ap-northeast-2.rds.amazonaws.com:5432/sportsaas?autoReconnect=true&useSSL=false
+    username: gms_svm
+    password: new1234!
+eureka:
+  client:
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://100.70.216.22:8761/eureka/
+    fetchRegistry: true
+    registry-fetch-interval-seconds: 5
+  instance:
+    preferIpAddress: false
+    instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
+# LOGGING
+#logging.config: classpath:logback/logback-spring.xml  # resource/logback-spring.xml에 위치하여 위치 자동 인식 
+
+
+# Resource 영역 (addResourceHandlers) 
+#server.compression: 
+#    enabled: true
+#    min-response-size: 2048
+#spring.resources:
+#    chain.cache: true 
+#    chain.enabled: true
+#    cache-period: 3600
+#    static-locations: classpath:/static/
+
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
+  configuration:
+    lazyLoadingEnabled: true
+    aggressiveLazyLoading: false
+    mapUnderscoreToCamelCase: true
+
+server:
+  port: 8080
+  context-path: /
+  jsp-servlet:
+    init-parameters:
+      developement: true # for jsp auto reload
+  session :
+    timeout: 30      
+    
+    
+
+############################################################  
+# context-core.xml
+############################################################
+settings:   
+  SICC_SYSTEM: SVM
+  SICC_CP: OLY
+  SICC_SSO: false
+  SICC_LOGIN_URL: /login  #SICC_LOGIN_URL: #{SICC_SSO?'/saml/login':'/login'}
+  uploadPath: c:/gms/upload
+  SICC_XSS_FILTER: true 
+
+# MULTIPART (MultipartProperties)
+spring.http.multipart:  
+  enabled: true
+  file-size-threshold: 0 
+  location: /tmp
+  max-file-size: 104857600KB 
+  max-request-size: 104857600KB
+  resolve-lazily: false
+############################################################
+
+
+############################################################  
+# sicc.properties
+############################################################  
+sp:
+  systemCd: EXP
+  #sp.providerName=EXP_CMS
+  providerName: BRP_WEB
+  #sp.domain=http://local.pyeongchang2018.com:8080
+  mainRedirect: /serviceprovider/sp/service_front
+  createUrl: /saml/createrequestservlet
+  logoutcreateUrl: /saml/createlogoutrequestservlet
+  logoutUrl: /saml/logout
+  acsUrl: /saml/acs
+  #sp.publicKeyFilePath=/WEB-INF/cert/pubkey_share.der
+  publicKeyFilePath: C:/sicc/gms_proj/gms2018/src/main/webapp/WEB-INF/cert/pubkey_share.der
+  idpUrl: /identityprovider/saml/ProcessResponseServlet
+  idpLogoutUrl: /common/login/logout
+  editUser: /user/memberinfo/selectpopup?providerName=
+  idpSessionStatusUrl: /identityprovider/saml/SessionStatusServlet
+  #ip.domain=http://inp.pyeongchang2018.com:8888/sso
+  domain: https://exp.pyeongchang2018.com:2443/sso/  
+  DR: http://203.255.241.195:8888/sso
+  secret: TheWinterIsComming
+############################################################  
+ 
+############################################################  
+# email.properties
+############################################################
+mail: 
+  smtp: 
+    ip: http://203.224.137.53:8480/    
+    host: cp-mail2018.asiangames2018.id
+    port: 465
+    user: noreply-volunteer@asiangames2018.id
+    password: Success123!!
+    fromEmail: noreply-volunteer@asiangames2018.id
+    sender: 
+      name: VOLUNTEER ASIAN GAMES 2018      
+############################################################ 
