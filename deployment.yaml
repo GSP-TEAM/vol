@@ -36,7 +36,7 @@ spec:
         - name: SPRING_PROFILES_ACTIVE
           value: dev
         - name: spring.cloud.config.uri
-          value: http://100.70.53.190:8888
+          value: http://100.96.252.201:8888
         ports:
         - name: http
           containerPort: 8080
