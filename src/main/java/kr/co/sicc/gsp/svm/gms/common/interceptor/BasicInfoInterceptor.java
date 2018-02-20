@@ -43,8 +43,7 @@ public class BasicInfoInterceptor extends HandlerInterceptorAdapter{
 					//String service_url_addr = request.getServerName() + ":" + request.getServerPort();
 					//System.out.println("service_url_addr local .... " + service_url_addr);
 				
-					
-					/*
+										/*
 					if(service_url_addr.equals("localhost:8080")) {
 						bInfo.setTenant_id("JAKARTA");
 						bInfo.setFile_path_nm("/images");
