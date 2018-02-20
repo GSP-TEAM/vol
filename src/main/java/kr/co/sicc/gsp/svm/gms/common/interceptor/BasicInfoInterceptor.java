@@ -42,6 +42,7 @@ public class BasicInfoInterceptor extends HandlerInterceptorAdapter{
 				if(request.getServerName().equals("localhost")) { 
 					//String service_url_addr = request.getServerName() + ":" + request.getServerPort();
 					//System.out.println("service_url_addr local .... " + service_url_addr);
+				
 					
 					/*
 					if(service_url_addr.equals("localhost:8080")) {
