@@ -36,7 +36,7 @@ spec:
         - name: SPRING_PROFILES_ACTIVE
           value: dev
         - name: spring.cloud.config.uri
-          value: http://100.96.252.193:8888
+          value: http://msa-config.development.svc.cluster.local:8888
         ports:
         - name: http
           containerPort: 8080
