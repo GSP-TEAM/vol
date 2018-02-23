@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kr.co.sicc.gsp.svm.gms.common.interceptor.BasicInfo;
 import kr.co.sicc.gsp.svm.gms.common.login.SiccUserService;
 import kr.co.sicc.gsp.svm.gms.svm.service.SVMUserService;
 import kr.co.sicc.gsp.svm.gms.svm.service.SendMailService;
@@ -53,11 +54,16 @@ public class SVMUserController extends SiccController {
 			@PathVariable String cmd,
 			@ModelAttribute("SVMUserVO") SVMUserVO vo,
 			HttpServletRequest request,
-			RedirectAttributes redirectAttributes
+			RedirectAttributes redirectAttributes,
+			HttpSession session//추가
 			) throws SiccException{
 		SVMUserVO userVo = new SVMUserVO();
+		BasicInfo bInfo = (BasicInfo)session.getAttribute("BasicInfo");//추가
 		try{
 			SiccBeanUtils.copyProperties(userVo, vo, model);
+			userVo.setTenant_id(bInfo.getTenant_id());
+			userVo.setCp_cd(bInfo.getCp_cd());
+			
 			if(request != null ) {
 				userVo.setUser_ip(siccUserService.getClientIp(request));
 			}
@@ -111,9 +117,8 @@ public class SVMUserController extends SiccController {
 						userVo.setPassword_chg_yn("N");
 						userVo.setUse_yn("Y");
 						userVo.setAssign_group_id("SVM_USER");
-						///////tenant_id, cp_cd 임의 설정
-						userVo.setTenant_id("test");
-						userVo.setCp_cd("test");
+						
+						//email 인증 Y로 설정
 						userVo.setEmail_id_auth_yn("Y");
 						svmUserService.insert(userVo);
 						
