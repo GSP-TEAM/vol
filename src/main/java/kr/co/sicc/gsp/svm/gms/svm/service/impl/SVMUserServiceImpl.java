@@ -169,7 +169,7 @@ public class SVMUserServiceImpl implements SVMUserService {
 	public int chk_email(SVMUserVO vo) throws SiccException {
 		SVMUserDAO mapper = session.getMapper(SVMUserDAO.class);
 		try{		
-			int result = 0;
+			int result = 0;	
 			result = mapper.chk_email(vo.getTenant_id(), vo.getCp_cd(), vo.getEmail_id());
 			return result;
 		} catch(DataAccessException e) {

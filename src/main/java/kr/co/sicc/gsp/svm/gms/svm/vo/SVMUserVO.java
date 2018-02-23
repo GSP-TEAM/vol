@@ -93,7 +93,7 @@ public class SVMUserVO extends SiccGenericVO  implements UserDetails {
 	
 	//추가되는 것들!!!!
 	private String tenant_id;
-	//private String cp_cd;
+	private String cp_cd;
 	private String email_id;
 	private String email_id_auth_yn;
 	private String password;
@@ -719,6 +719,12 @@ public class SVMUserVO extends SiccGenericVO  implements UserDetails {
 		this.udt_ip = udt_ip;
 	}
 
+	public void setCp_cd(String cp_cd) {
+		this.cp_cd = cp_cd;
+	}
 	
+	public String getCp_cd() {
+		return cp_cd;
+	}
 	
 }
