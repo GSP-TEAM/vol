@@ -40,33 +40,13 @@ public class BasicInfoInterceptor extends HandlerInterceptorAdapter{
 						
 				//  for local TEST 
 				if(request.getServerName().equals("localhost")) { 
-					//String service_url_addr = request.getServerName() + ":" + request.getServerPort();
-					//System.out.println("service_url_addr local .... " + service_url_addr);
-				
-					/*
-					if(service_url_addr.equals("localhost:8080")) {
-						bInfo.setTenant_id("JAKARTA");
-						bInfo.setFile_path_nm("/images");
-						bInfo.setImg_file_nm("top_logo_01.png");
-					} else {
-						bInfo.setTenant_id("SICC");
-						bInfo.setFile_path_nm("/images");
-						bInfo.setImg_file_nm("top_logo_02.png");
-					}					
-					*/				
-				
 					 service_url_addr = "vol.jakarta.gsp.sicc.co.kr";
 					// service_url_addr = "vol.trackmeet.gsp.sicc.co.kr";
 					// service_url_addr = "vol.swimming.gsp.sicc.co.kr";
-
 				// for prod
 				} else {
-					
-					service_url_addr = request.getServerName();
-					
-				}				
-
-				//System.out.println("service_url_addr prod .... " + service_url_addr);
+					service_url_addr = request.getServerName();					
+				}			
 
 				BasicInfoDAO mapper = sql_session.getMapper(BasicInfoDAO.class);
 				bInfo = mapper.BasicInfo(service_url_addr);  
