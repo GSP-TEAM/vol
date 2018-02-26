@@ -13,6 +13,9 @@ public class UserInfo implements UserDetails{
 	private String user_id;
 	private String password;
 	
+	// for 2018 SaaS
+	private String tenant_id;
+
 	//-------
     private String user_nm = "";    
     private String userSystemCd = "";
@@ -281,4 +284,12 @@ public class UserInfo implements UserDetails{
 	public void setUserNOCNm(String userNOCNm) {
 		this.userNOCNm = userNOCNm;
 	}
+	
+	public String getTenant_id() {
+		return tenant_id;
+	}
+
+	public void setTenant_id(String tenant_id) {
+		this.tenant_id = tenant_id;
+	}	
 }

@@ -8,21 +8,21 @@
 	<![CDATA[  
     SELECT MAJOR_CD, 
            MINOR_CD, 
-           CASE WHEN #{code_find} = 'FA_CD' THEN DISPLAY_CD + '-'+CODE_NM1 ELSE CODE_NM1 END AS CODE_NM1, 
-           CASE WHEN #{code_find} = 'FA_CD' THEN DISPLAY_CD + '-'+S_CODE_NM1 ELSE S_CODE_NM1 END AS CODE_NM2, 
+           CASE WHEN #{code_find} = 'FA_CD' THEN DISPLAY_CD || '-' || CODE_NM1 ELSE CODE_NM1 END AS CODE_NM1, 
+           CASE WHEN #{code_find} = 'FA_CD' THEN DISPLAY_CD || '-' || S_CODE_NM1 ELSE S_CODE_NM1 END AS CODE_NM2, 
            CODE_NM3, 
            CODE_IDX1, CODE_IDX2, CODE_IDX3, CODE_IDX4, 
            SPORT_CD, 
            DISPLAY_CD
-	  FROM TCOCODEM
+	  FROM GMS_SYS.TCOCODEM
 	 WHERE MAJOR_CD = (SELECT MINOR_CD
-	 					 FROM TCOCODEM
+	 					 FROM GMS_SYS.TCOCODEM
 	 					WHERE CODE_IDX1 = #{code_find})
 	   AND HIDE_YN = 'N'	  
-	   AND USE_CP_CD LIKE #{cp_cd}+'%'
+	   AND USE_CP_CD LIKE #{cp_cd} || '%'
 	]]>
 	<if test="order != null and order != ''">
-   	 ORDER BY ${order}		
+   	-- ORDER BY ${order}		-- 주석 풀기  for 2018 Saas
 	</if>
 	</select>
 </mapper>

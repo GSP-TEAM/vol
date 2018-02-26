@@ -39,15 +39,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import org.xml.sax.SAXException;
 
+import kr.co.sicc.gsp.svm.gms.common.interceptor.BasicInfo;
 import kr.co.sicc.gsp.svm.gms.common.sso.SSOProvider;
 import kr.co.sicc.gsp.svm.gms.common.sso.serviceprovider.saml.util.SAMLParser;
 import kr.co.sicc.gsp.svm.gms.common.sso.serviceprovider.saml.util.SamlException;
 import kr.co.sicc.gsp.svm.gms.common.sso.serviceprovider.saml.util.Util;
+import kr.co.sicc.gsp.svm.gms.svm.vo.SVMUserVO;
 import kr.co.sicc.gsp.svm.properties.SiccProperties;
 import kr.co.sicc.gsp.svm.sicc.common.SiccController;
 import kr.co.sicc.gsp.svm.sicc.common.SiccMessageUtil;
@@ -241,6 +245,7 @@ public class LoginController  extends SiccController {
 
     	redirectAttributes.addFlashAttribute("securityExceptionMsg", getMessage(failMsg, locale));
 
+		logger.info(" failMsg - " +  failMsg);
     	if(failMsg.equals("login.access.denied_failcnt")) {
     		return "redirect:/login?error";
     	} else {

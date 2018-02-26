@@ -55,15 +55,15 @@ public class BasicInfoInterceptor extends HandlerInterceptorAdapter{
 			}  
 						
 			// 로긴 정보의 tenantId와 비교해서 basicInfo의 로긴 정보의 tenantID정보로 셋팅 
-			UserInfo user = (UserInfo)session.getAttribute("userInfo");		
-			if(user != null) {
+			//UserInfo user = (UserInfo)session.getAttribute("userInfo");		
+			//if(user != null) {
 			//if(!user.getAuthorities().isEmpty()) {
 //				if(user.getTenantId().euqlas(bInfo.getTenantId())) {
 //					bInfo.setTenantId(user.getTenantId());
 //					bInfo.setCp_cd(user.getCp_cd());
 //				}
 			}
-		}
+		//}
 		return true;
 	}
 }

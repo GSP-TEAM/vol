@@ -57,14 +57,15 @@
 	<update id="loginFail" parameterType="kr.co.sicc.gsp.svm.gms.common.login.UserInfo">
 	<![CDATA[
 	INSERT INTO WEBLOGINFAILINFOM (
-		SYSTEM_CD, SYSTEM_NM, USER_ID, MSG, USER_IP, ACCESS_DATE, CP_CD
+		TENANT_ID, SYSTEM_CD, SYSTEM_NM, EMAIL_ID, MESSAGE, USER_IP, ACCESS_DATE, CP_CD
 	) VALUES (
+		#{tenant_id},
 		#{current_system_cd},
 		'',
 		#{user_id},
 		#{userIdx5},
 		#{user_ip},
-		getdate(),
+		now(),
 		#{cp_cd}
 	)
 	]]>

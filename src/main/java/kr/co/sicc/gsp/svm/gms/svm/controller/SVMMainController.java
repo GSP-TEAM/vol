@@ -7,6 +7,7 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,16 +49,17 @@ public class SVMMainController extends SiccController {
 		
 		SVMUserVO svmUserVO = (SVMUserVO)session.getAttribute("userInfo");
 		session.setAttribute("SVMUserVO", svmUserVO);
-		if(svmUserVO != null){ 
-			if(!"Y".equals(svmUserVO.getEmail_auth_yn())) return "redirect:/mail/handlerEmail";
+		if(svmUserVO != null){
+			//if(!"Y".equals(svmUserVO.getEmail_auth_yn())) {
+			if(!"Y".equals(svmUserVO.getEmail_id_auth_yn())) return "redirect:/mail/handlerEmail";
 			if("Y".equals(svmUserVO.getChange_pwd_yn())){
 				redirectAttr.addAttribute("email", svmUserVO.getEmail());
 				redirectAttr.addFlashAttribute("msg",getMessage("svm.message.info.password_yn",null, locale));
 				return "redirect:/"+lang+"/svm/chngPw";
-			}
-			return "redirect:/"+lang+"/svm/application/basicInfo";
+			}			
+			return "redirect:/"+lang+"/svm/application/basicInfo";			
 		}
-		else
+		else 
 			return "redirect:/"+lang+"/svm/main";
 		
 	}

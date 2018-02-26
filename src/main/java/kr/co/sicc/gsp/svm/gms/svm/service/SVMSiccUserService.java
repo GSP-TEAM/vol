@@ -5,10 +5,9 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
@@ -19,16 +18,17 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import kr.co.sicc.gsp.svm.gms.common.interceptor.BasicInfo;
 import kr.co.sicc.gsp.svm.gms.common.login.Role;
 import kr.co.sicc.gsp.svm.gms.svm.dao.SVMLoginDAO;
 import kr.co.sicc.gsp.svm.gms.svm.dao.SVMUserDAO;
 import kr.co.sicc.gsp.svm.gms.svm.vo.SVMUserVO;
 import kr.co.sicc.gsp.svm.sicc.common.SiccMessageUtil;
 import kr.co.sicc.gsp.svm.sicc.exception.SiccException;
+import kr.co.sicc.gsp.svm.sicc.util.SiccBeanUtils;
 
 @Service
 public class SVMSiccUserService implements UserDetailsService{
@@ -49,20 +49,28 @@ public class SVMSiccUserService implements UserDetailsService{
 	public SVMUserVO loadUserByUsername(String email) throws UsernameNotFoundException {
 		SVMLoginDAO mapper = session.getMapper(SVMLoginDAO.class);
 		
-		//parameter/항목추가
-		String tenantId = "test";
-		String cpcd = "test";
+		// for 2018 SaaS
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+		HttpSession session = request.getSession();
+		BasicInfo bInfo = (BasicInfo)session.getAttribute("BasicInfo");
+		String tenantId = "";
+		String cpcd = "";
+		if(bInfo != null) {	
+			tenantId = bInfo.getTenant_id();
+			cpcd = bInfo.getCp_cd();
+		}
 		SVMUserVO user = mapper.userInfo(tenantId, cpcd, email);
-		///////////////////////////////////////
+		//-- for 2018 SaaS
 		
+		
+		///////////////////////////////////////		
 		if(user == null) {
 			if(SICC_SSO) {
 				user = new SVMUserVO();
 				user.setEmail(email);
 				user.setSso_msg("login.user.notfound");
-				
 				return user;
-			} else {
+			} else {				
 				throw new UsernameNotFoundException("svm.info.msg.no_regi_email");
 			}
 		}
@@ -93,13 +101,13 @@ public class SVMSiccUserService implements UserDetailsService{
 		List<? extends Role> roles = mapper.authList(tenantId, cpcd, email);
 		user.setAuth(roles);
 		
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+//		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 		user.setUser_ip(getClientIp(request));
 //		user.setCurrent_system_cd(SICC_SYSTEM);
 		
 		return user;
 	}
-
+	
 	public int loginSuccess(SVMUserVO SVMUserVO) {
 //		int result = mapper.loginSuccess(SVMUserVO);
 		int result = 0;
@@ -128,7 +136,7 @@ public class SVMSiccUserService implements UserDetailsService{
 		return result;
 	}
 
-	public SVMUserVO getSVMUserVO(String username) {
+	public SVMUserVO getSVMUserVO(String username) {		
 		SVMLoginDAO mapper = session.getMapper(SVMLoginDAO.class);
 		//SVMUserVO user = mapper.userInfo(username);
 		//parameter/항목추가

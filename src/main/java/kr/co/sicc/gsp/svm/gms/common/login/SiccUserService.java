@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ import org.springframework.util.Base64Utils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import kr.co.sicc.gsp.svm.gms.common.interceptor.BasicInfo;
+import kr.co.sicc.gsp.svm.gms.svm.vo.SVMUserVO;
 import kr.co.sicc.gsp.svm.sicc.exception.SiccException;
 
 @Service
@@ -95,12 +98,24 @@ public class SiccUserService implements UserDetailsService{
 	}
 
 	public int loginFail(UserInfo userinfo) {
+		
+		System.out.println("loginFail... ");
+		
 		LoginDAO mapper = session.getMapper(LoginDAO.class);
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 		userinfo.setUser_ip(getClientIp(request));
-		userinfo.setCurrent_system_cd(SICC_SYSTEM);
-		int result = mapper.loginFail(userinfo);
-		result = mapper.loginFailCount(userinfo);
+		userinfo.setCurrent_system_cd(SICC_SYSTEM);		
+		
+		// for 2018 SaaS
+		HttpSession session = request.getSession();
+		BasicInfo bInfo = (BasicInfo)session.getAttribute("BasicInfo");
+		userinfo.setTenant_id(bInfo.getTenant_id());
+		userinfo.setCp_cd(bInfo.getCp_cd());
+		//-- for 2018 SaaS
+		
+		//int result = mapper.loginFail(userinfo);
+		//result = mapper.loginFailCount(userinfo);
+		int result = 0;
 		
 		return result;
 	}
