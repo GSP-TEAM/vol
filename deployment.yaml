@@ -3,7 +3,7 @@ apiVersion: v1
 metadata:
   name: gsp-vol-service
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: gsp-vol
   ports:
