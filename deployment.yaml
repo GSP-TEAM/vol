@@ -10,7 +10,7 @@ spec:
   - protocol: TCP
     port: 8080
     nodePort: 30100
-    targetPort: 8080
+    targetPort: 80
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
