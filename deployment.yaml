@@ -8,7 +8,7 @@ spec:
     app: gsp-vol
   ports:
   - protocol: TCP
-    port: 80
+    port: 8080
     nodePort: 30100
     targetPort: 80
 ---
@@ -39,4 +39,4 @@ spec:
           value: http://msa-config.development.svc.cluster.local:8888
         ports:
         - name: http
-          containerPort: 80
+          containerPort: 8080
