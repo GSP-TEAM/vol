@@ -153,7 +153,36 @@ if( "in".equalsIgnoreCase(lang) ){
 	}
     
     function login(){
-    	//alert('');
+    	
+    	// for 2018 SaaS : Oauth2
+//     	alert("login");
+//     	var token;
+//     	var requestAccessToken = function() {
+//     		var client_id = '';
+//     		var client_secret = '';
+//     		$('http://localhost:8090/oauth/token', {
+//     			method: 'POST',
+//     			xhrFields: {withCredentials: true}
+//     			header: {
+//     				Authorization: 'Basic ' + btoa(client_id + ':' + client_secret)
+//     			},
+//     			data: {
+//     				grant_type: 'password',
+//     				username: 'USERNAME_HERE',
+//     				password: 'PASSWORK_HERE'
+//     			},
+//     			success: function(result) {
+//     				token = result.access_token;
+//     				document.getElementById('loginForm').submit();
+//     			},
+//     			error: function(xhr, status, error) {
+//     				console.log(error);
+//     			}
+//     		});
+//     	};
+//     	alert("requestAccessToken: " +requestAccessToken);
+    	// -- for 2018 SaaS : Oauth2  	
+    	
     	document.getElementById('loginForm').submit();
     }
     
