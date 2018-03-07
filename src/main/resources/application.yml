@@ -17,6 +17,9 @@ spring:
     url: jdbc:postgresql://sport-saas-psql.cf37vedvxld3.ap-northeast-2.rds.amazonaws.com:5432/sportsaas?autoReconnect=true&useSSL=false
     username: gms_svm
     password: new1234!
+    tomcat:
+      validation-query: SELECT 1
+      
 eureka:
   client:
     registerWithEureka: true
