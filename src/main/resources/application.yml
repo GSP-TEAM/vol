@@ -61,10 +61,9 @@ server:
     init-parameters:
       developement: true # for jsp auto reload
   session :
-    timeout: 30      
+    timeout: 30     
     
     
-
 ############################################################  
 # context-core.xml
 ############################################################
@@ -84,7 +83,6 @@ spring.http.multipart:
   max-file-size: 104857600KB 
   max-request-size: 104857600KB
   resolve-lazily: false
-############################################################
 
 
 ############################################################  
@@ -110,7 +108,7 @@ sp:
   domain: https://exp.pyeongchang2018.com:2443/sso/  
   DR: http://203.255.241.195:8888/sso
   secret: TheWinterIsComming
-############################################################  
+ 
  
 ############################################################  
 # email.properties
@@ -125,4 +123,23 @@ mail:
     fromEmail: noreply-volunteer@asiangames2018.id
     sender: 
       name: VOLUNTEER ASIAN GAMES 2018      
+
+
+############################################################  
+# OAuth2.properties
+############################################################
+security:
+  oauth2:
+    client:      
+      client-id: msa
+      client-secret: 1234 
+      access-token-uri: http://a9dfa037228db11e8b7c502d83010dc5-372435708.ap-northeast-2.elb.amazonaws.com:8761/oauth/token
+      check-token-uri: http://a9dfa037228db11e8b7c502d83010dc5-372435708.ap-northeast-2.elb.amazonaws.com:8761/oauth/check_token
+      #user-authorization-uri: https://apigw.gsp.sicc.co.kr/oauth/auth
+      #token-name: oauth_token
+      #authentication-scheme: query
+      #client-authentication-scheme: form 
+      #scope: email, profile       
+    #resource:
+      #user-info-uri: https://www.googleapis.com/oauth2/v2/userinfo
 ############################################################ 

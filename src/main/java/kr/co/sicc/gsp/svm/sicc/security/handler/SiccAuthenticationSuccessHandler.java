@@ -98,8 +98,8 @@ public class SiccAuthenticationSuccessHandler implements AuthenticationSuccessHa
     }
 
 	private void setSessionUserDetails(HttpServletRequest request, Object userDetails) {
-		HttpSession session = request.getSession();
-        session.setAttribute("userInfo", userDetails);
+		HttpSession session = request.getSession();		
+        session.setAttribute("userInfo", userDetails);        
         session.setAttribute("cp_cd", request.getParameter("cp_cd")==null?"":request.getParameter("cp_cd"));
     }
 	

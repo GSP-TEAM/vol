@@ -30,6 +30,8 @@ public class BasicInfoInterceptor extends HandlerInterceptorAdapter{
 		Object obj = ((HandlerMethod)handler);
 		RequestMapping rm = ((HandlerMethod)obj).getMethodAnnotation(RequestMapping.class);
 		
+		System.out.println("BasicInfoInterceptor >>>> rm : " + rm);
+		
 		if(rm != null){
 			HttpSession session = request.getSession();
 			

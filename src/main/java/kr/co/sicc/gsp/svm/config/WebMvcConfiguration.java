@@ -76,12 +76,12 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter{
     BasicInfoInterceptor basicInfoInterceptor;
     
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
+    public void addInterceptors(InterceptorRegistry registry) {    	
+    	String system_Pattern = "/*/"+SICC_SYSTEM.toLowerCase()+"/**";
     	
-        registry.addInterceptor(siccPagePresetInterceptor)
+        registry.addInterceptor(siccPagePresetInterceptor)        
                 .addPathPatterns("/*/cfs/**")
-                .addPathPatterns("/*/"+SICC_SYSTEM+"/**")
-        		//.addPathPatterns("/*/#{SICC_SYSTEM.toLowerCase()}/**")
+        		.addPathPatterns(system_Pattern)
         		.excludePathPatterns("/js/**")
         		.excludePathPatterns("/css/**")
         		.excludePathPatterns("/images/**")
@@ -116,17 +116,6 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter{
 //        //registry.addResourceHandler("/dtds/**").addResourceLocations("/dtds/");
 //        registry.addResourceHandler("/images/**").addResourceLocations("/images/").addResourceLocations(RESOURCE_LOCATIONS);               
     }
- 
-    
-//	@Override
-//	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//		registry
-//        .addResourceHandler("/**")
-//        .addResourceLocations(RESOURCE_LOCATIONS)
-//        .setCachePeriod(3600)
-//        .resourceChain(true)
-//        .addResolver(new PathResourceResolver());
-//	}	
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // View의 종류 : 1.BeanNAmeViewResolver 2.UrlBasedViewResolver 3.InternalResourceViewResolver
@@ -193,8 +182,9 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter{
     @Bean
     public SerializableResourceBundleMessageSource messageSource() {
     	SerializableResourceBundleMessageSource source = new SerializableResourceBundleMessageSource();
+    	String system_message = "classpath:i18n/messages/"+SICC_SYSTEM.toLowerCase()+"Message";
         // resource 밑에 해당 폴더에서 properties를 찾는다.        
-        source.setBasenames("classpath:i18n/messages/globalMessage","classpath:i18n/messages/svmMessage", "classpath:i18n/messages/cfsMessage", "classpath:i18n/messages/sysMessage");
+        source.setBasenames("classpath:i18n/messages/globalMessage", system_message, "classpath:i18n/messages/cfsMessage", "classpath:i18n/messages/sysMessage");
         source.setDefaultEncoding("UTF-8");
         source.setFallbackToSystemLocale(false);
         return source;
@@ -212,39 +202,14 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter{
         //localeResolver.setDefaultLocale(defaultLocale);
         return localeResolver;
     }         
-    // addInterceptors().addInterceptor 함수에 다국어지원 Interceptor를 추가 하는 대신 우선순위가 높은 handler에 적용
-    @Bean
+    
+    @Bean    
     public RequestMappingHandlerMapping handlerMapping() {
+    	// addInterceptors().addInterceptor 함수에 다국어지원 Interceptor를 추가 하는 대신 우선순위가 높은 handler에 적용
 	    RequestMappingHandlerMapping rm = new RequestMappingHandlerMapping();
 	    rm.setInterceptors(localeChangeInterceptor());
 	    return rm;
     }
-    
-
-//	  @Override
-//	  public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-//	      // equivalent to <mvc:message-converters>
-//		  onverters.add(converter());
-//	  }
-	  
-/*	
-	@Value("{tomcatAjp.protocol}")
-	String ajpProtocol;
-	
-	@Value("{tomcatAjp.port}")
-	int ajpPort;
-	
-	@Value("{tomcatAjp.enabled}")
-	String ajpEnabled;
-	
-	@Value("{tomcatAjp.scheme}")
-	String ajpScheme;*/	
-
-//    @Override
-//    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-//    	System.out.println("addArgumentResolvers start >> ");
-//    	argumentResolvers.add(new SiccBasicInfoArgumentResolver());
-//    }    
 
 	@Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
@@ -271,28 +236,5 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter{
 		characterEncodingFilter.setForceEncoding(true);
 		return characterEncodingFilter;
 	}
-	
-	/*@Bean
-	public EmbeddedServletContainerFactory servletContainer() {
-		
-		Boolean ajpEnabledBool = Boolean.valueOf(ajpEnabled);
-		
-		TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory();
-		
-		//if(ajpEnabledBool) {
-			Connector ajpConnector = new Connector("AJP/1.3");
-			
-			ajpConnector.setProtocol("AJP/1.3");
-			ajpConnector.setPort(8009);
-			ajpConnector.setSecure(false);
-			ajpConnector.setAllowTrace(false);
-			ajpConnector.setScheme("http");
-			tomcat.addAdditionalTomcatConnectors(ajpConnector);
-			
-			
-		//}
-		
-		return tomcat;
-	}*/
 	
 }

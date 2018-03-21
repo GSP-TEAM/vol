@@ -1,5 +1,7 @@
 package kr.co.sicc.gsp.svm.config;
 
+import java.util.regex.Pattern;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +31,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Value("${settings.SICC_LOGIN_URL}")
 	String SICC_LOGIN_URL;
 	
+	@Value("${settings.SICC_SYSTEM}")
+	private String SICC_SYSTEM;
+	
 	@Override
 	public void configure(WebSecurity web) throws Exception
 	{
@@ -54,9 +59,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	    		.antMatchers("/*/svm/common", "/*/svm/main", "/*/svm/about", "/*/svm/volunteer").permitAll()
 	    		.antMatchers("/*/svm/contact", "/*/svm/forgotPw", "/*/svm/forgotPwAfter", "/*/svm/chngPw").permitAll()    		
 	    		.antMatchers("/svm/user/chngPw", "/*/mail/forgotPw", "/*/svm/user/*").permitAll()    		
-	    		.antMatchers("/*/svm/application/*").permitAll() // 占쌜억옙 占쏙옙占쏙옙 占쏙옙占쏙옙 占쌈쏙옙 占쏙옙占� 
-	    		.antMatchers("/*/svm/application/application", "/*/svm/application/**", "/mail/*").permitAll()
-	    		.antMatchers("/*/#{SICC_SYSTEM.toLowerCase()}/*/view/**", "/changeLocale").permitAll()
+	    		.antMatchers("/*/svm/application/*").permitAll()
+	    		.antMatchers("/*/svm/application/application", "/*/svm/application/**", "/mail/*").permitAll()	    		
+	    		.antMatchers("/*/"+SICC_SYSTEM.toLowerCase()+"/*/view/**", "/changeLocale").permitAll()
 	    		.antMatchers("/login_success", "/**").authenticated();
 
         http.formLogin()
@@ -66,8 +71,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	        	.passwordParameter("pw")	        	
 	        	.successHandler(siccAuthenticationSuccessHandler()) 
 	        	.failureHandler(siccAuthenticationFailureHandler());  
-        
-        // maximumSessions : Session 占쏙옙諛놂옙占�,  maxSessionsPreventsLogin: 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙微占� 占싸깍옙占쏙옙占쏙옙 占쏙옙占�, 占싸깍옙 占실곤옙 占쏙옙占쏙옙 占쏙옙占쌈듸옙 占쏙옙占쏙옙渼占� session占쏙옙占쏙옙홱占�.false占쏙옙 占썩본 
+          
         http.sessionManagement()
         		.maximumSessions(1).expiredUrl("/login_duplicate").maxSessionsPreventsLogin(false);
         
